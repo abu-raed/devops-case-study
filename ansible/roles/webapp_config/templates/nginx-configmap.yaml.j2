@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: {{ namespace }}
+  labels:
+    app: webapp
+    environment: {{ app_env }}
+  annotations:
+    managed-by: ansible
+data:
+  nginx.conf: |
+    user  nginx;
+    worker_processes  auto;
+
+    events {
+      worker_connections  {{ nginx_worker_connections }};
+    }
+
+    http {
+      include       /etc/nginx/mime.types;
+      default_type  application/octet-stream;
+      sendfile      on;
+{% if nginx_gzip_enabled %}
+      gzip          on;
+      gzip_types    text/css application/javascript application/json image/svg+xml;
+{% endif %}
+
+      server {
+        listen 80;
+        server_name _;
+
+        location /static/ {
+          alias /usr/share/nginx/html/static/;
+          expires {{ (cache_ttl_seconds / 86400) | round(0, 'ceil') | int }}d;
+          add_header Cache-Control "public, max-age={{ cache_ttl_seconds }}, immutable";
+          try_files $uri =404;
+        }
+
+        location / {
+          proxy_pass         http://127.0.0.1:8080;
+          proxy_http_version 1.1;
+          proxy_set_header   Host $host;
+          proxy_set_header   X-Real-IP $remote_addr;
+          proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header   X-Forwarded-Proto $scheme;
+        }
+
+        location /healthz {
+          access_log off;
+          return 200 "ok\n";
+        }
+      }
+    }

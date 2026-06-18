@@ -1,0 +1,38 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  name: ig-app-spot
+  labels:
+    kops.k8s.io/cluster: devops-case.k8s.local
+spec:
+  role: Node
+  machineType: t3.small
+  rootVolumeSize: 20
+  rootVolumeType: gp3
+  minSize: 0
+  maxSize: 3
+  subnets:
+  - us-east-1a
+  - us-east-1b
+  - us-east-1c
+  mixedInstancesPolicy:
+    instances:
+    - t3.small
+    - t3.medium
+    - t2.small
+    onDemandAboveBase: 0
+    onDemandBase: 0
+    spotAllocationStrategy: capacity-optimized
+  nodeLabels:
+    kops.k8s.io/instancegroup: ig-app-spot
+    lifecycle: spot
+    workload-tier: elastic
+  taints:
+  - spotInstance=true:NoSchedule
+  cloudLabels:
+    k8s.io/cluster-autoscaler/enabled: "true"
+    k8s.io/cluster-autoscaler/devops-case.k8s.local: "true"
+    k8s.io/cluster-autoscaler/node-template/label/lifecycle: spot
+    k8s.io/cluster-autoscaler/node-template/label/workload-tier: elastic
+    k8s.io/cluster-autoscaler/node-template/taint/spotInstance: "true:NoSchedule"
+    Environment: production

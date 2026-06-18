@@ -1,0 +1,17 @@
+---
+app_env: staging
+app_log_level: debug
+
+app_db_host: staging-db.internal.example.com
+app_db_name: webapp_staging
+app_db_pool_size: 5
+
+app_api_base_url: https://api.staging.example.com
+cache_ttl_seconds: 60
+
+feature_flags:
+  enable_dark_mode: true
+  enable_beta_search: true
+
+hpa_min_replicas: 1
+hpa_max_replicas: 3

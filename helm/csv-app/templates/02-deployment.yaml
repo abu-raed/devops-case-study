@@ -1,0 +1,161 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: webapp
+  labels:
+    app: webapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    spec:
+      tolerations:
+      - key: "spotInstance"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values: ["webapp"]
+              topologyKey: "kubernetes.io/hostname"
+
+      volumes:
+      - name: shared-static
+        emptyDir: {}
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+
+      initContainers:
+      - name: static-files-init
+        image: busybox
+        command:
+        - sh
+        - -c
+        - |
+          mkdir -p /shared/static/css /shared/static/js
+          echo "body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:20px}" \
+            > /shared/static/css/main.css
+          echo "console.log('CSV Processor loaded')" \
+            > /shared/static/js/app.js
+          echo "Static assets ready:"
+          find /shared/static -type f
+        volumeMounts:
+        - name: shared-static
+          mountPath: /shared/static
+
+      containers:
+      - name: webapp
+        image: docker.io/rjavid/csv-app:v2.0
+        ports:
+        - containerPort: 5000
+          name: http-app
+        # App config from ConfigMap
+        envFrom:
+        - configMapRef:
+            name: webapp-config
+        # AWS credentials from Secret
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_REGION
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_REGION
+        - name: S3_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: S3_BUCKET
+        - name: S3_PREFIX
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: S3_PREFIX
+        - name: GLACIER_TRANSITION_DAYS
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: GLACIER_TRANSITION_DAYS
+        volumeMounts:
+        - name: shared-static
+          mountPath: /shared/static
+          readOnly: true
+        resources:
+          requests:
+            cpu: 150m
+            memory: 192Mi
+          limits:
+            cpu: 500m
+            memory: 384Mi
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 20
+          periodSeconds: 20
+          failureThreshold: 3
+
+      - name: nginx
+        image: nginx:1.27-alpine
+        ports:
+        - containerPort: 80
+          name: http-nginx
+        volumeMounts:
+        - name: shared-static
+          mountPath: /usr/share/nginx/html/static
+          readOnly: true
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 20

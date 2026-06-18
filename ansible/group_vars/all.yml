@@ -1,0 +1,17 @@
+---
+# Common defaults — overridden per-environment in group_vars/<env>.yml
+namespace: webapp
+configmap_name: webapp-config
+
+app_log_level: info
+app_log_format: json
+
+static_assets_path: /app/static
+cache_ttl_seconds: 3600
+
+feature_flags:
+  enable_dark_mode: true
+  enable_beta_search: false
+
+nginx_worker_connections: 1024
+nginx_gzip_enabled: true

@@ -1,0 +1,19 @@
+---
+app_env: production
+app_log_level: warning
+
+app_db_host: prod-db.internal.example.com
+app_db_name: webapp_prod
+app_db_pool_size: 20
+
+app_api_base_url: https://api.example.com
+cache_ttl_seconds: 86400
+
+feature_flags:
+  enable_dark_mode: true
+  enable_beta_search: false
+
+# Replica counts referenced informationally; the live count is governed
+# by the HPA (k8s/04-hpa.yaml) once deployed.
+hpa_min_replicas: 2
+hpa_max_replicas: 10

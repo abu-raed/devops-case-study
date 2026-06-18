@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}CSV Processor{% endblock %}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent: #5b6ef5;
+      --accent-light: #7b8ffa;
+      --green: #3ecf8e;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 10px;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      height: 58px;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent-light);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--text); }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: .35rem; }
+    h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); }
+    p.sub { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Upload area ── */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      text-align: center;
+      transition: border-color .2s, background .2s;
+      cursor: pointer;
+      background: var(--surface2);
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--accent);
+      background: rgba(91,110,245,.07);
+    }
+    .upload-zone .icon { font-size: 2.5rem; margin-bottom: .75rem; }
+    .upload-zone p { color: var(--muted); font-size: .95rem; }
+    .upload-zone strong { color: var(--text); }
+    #file-input { display: none; }
+
+    /* ── Button ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .55rem 1.3rem;
+      border-radius: 7px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity .2s, transform .1s;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { opacity: .88; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent-light); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .badge-green  { background: rgba(62,207,142,.15); color: var(--green); }
+    .badge-red    { background: rgba(248,113,113,.15); color: var(--red); }
+    .badge-yellow { background: rgba(251,191,36,.15);  color: var(--yellow); }
+    .badge-blue   { background: rgba(91,110,245,.15);  color: var(--accent-light); }
+
+    /* ── Flash messages ── */
+    .flash-list { list-style: none; margin-bottom: 1rem; }
+    .flash-list li {
+      padding: .7rem 1rem;
+      border-radius: var(--radius);
+      font-size: .9rem;
+      margin-bottom: .5rem;
+    }
+    .flash-error   { background: rgba(248,113,113,.1); border: 1px solid var(--red);    color: var(--red); }
+    .flash-success { background: rgba(62,207,142,.1);  border: 1px solid var(--green);  color: var(--green); }
+    .flash-info    { background: rgba(91,110,245,.1);  border: 1px solid var(--accent); color: var(--accent-light); }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+    table { border-collapse: collapse; width: 100%; font-size: .85rem; }
+    thead { background: var(--surface2); }
+    th { padding: .7rem 1rem; text-align: left; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,.025); }
+
+    /* ── Grid ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.2rem; }
+    .stat-box .label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .3rem; }
+    .stat-box .value { font-size: 1.4rem; font-weight: 700; }
+
+    /* ── S3 info box ── */
+    .s3-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.2rem; font-size: .85rem; }
+    .s3-box .s3-row { display: flex; gap: .5rem; align-items: flex-start; margin-bottom: .4rem; flex-wrap: wrap; }
+    .s3-box .s3-label { color: var(--muted); min-width: 130px; flex-shrink: 0; }
+    .s3-box .s3-val  { color: var(--text); word-break: break-all; }
+
+    /* ── History row ── */
+    .history-row { display: flex; align-items: center; gap: 1rem; padding: .75rem 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .history-row:last-child { border-bottom: none; }
+    .history-name { font-weight: 600; flex: 1; min-width: 160px; }
+    .history-meta { color: var(--muted); font-size: .8rem; }
+
+    .empty { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+    .empty .icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* ── S3 config notice ── */
+    .notice { background: rgba(251,191,36,.07); border: 1px solid var(--yellow); border-radius: var(--radius); padding: .9rem 1.1rem; font-size: .85rem; color: var(--yellow); margin-bottom: 1.5rem; }
+
+    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: .8rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">📊 CSV Processor</a>
+    <a href="/">Upload</a>
+    <a href="/#history">History</a>
+  </nav>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-list">
+          {% for category, message in messages %}
+            <li class="flash-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer>CSV Processor · Flask + S3 · Built with ♥</footer>
+</body>
+</html>

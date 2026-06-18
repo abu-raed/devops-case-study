@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}{{ record.original_name }} — Result{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+  <div>
+    <h1>{{ record.original_name }}</h1>
+    <p class="sub">Processed at {{ record.uploaded_at[:19].replace('T', ' ') }} UTC</p>
+  </div>
+  <a href="/" class="btn btn-secondary" style="margin-left:auto;">← Back</a>
+</div>
+
+<!-- Stats -->
+<div class="stats-grid">
+  <div class="stat-box">
+    <div class="label">Rows</div>
+    <div class="value">{{ record.row_count }}</div>
+  </div>
+  <div class="stat-box">
+    <div class="label">Columns</div>
+    <div class="value">{{ record.columns | length }}</div>
+  </div>
+  <div class="stat-box">
+    <div class="label">S3 Status</div>
+    <div class="value" style="font-size:1rem; margin-top:.3rem;">
+      {% if s3_result.success %}
+        <span class="badge badge-green">✓ Uploaded</span>
+      {% else %}
+        <span class="badge badge-red">✗ Failed</span>
+      {% endif %}
+    </div>
+  </div>
+  {% if s3_result.success and s3_result.lifecycle %}
+  <div class="stat-box">
+    <div class="label">Glacier in</div>
+    <div class="value">{{ s3_result.lifecycle.glacier_ir_after_days }}d</div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- S3 Details -->
+{% if s3_result.success %}
+<div class="card">
+  <h2>☁️ S3 Upload Details</h2>
+  <div class="s3-box">
+    <div class="s3-row"><span class="s3-label">S3 URI</span><span class="s3-val">{{ s3_result.uri }}</span></div>
+    <div class="s3-row"><span class="s3-label">Bucket</span><span class="s3-val">{{ s3_result.bucket }}</span></div>
+    <div class="s3-row"><span class="s3-label">Key</span><span class="s3-val">{{ s3_result.key }}</span></div>
+    {% if s3_result.lifecycle %}
+    <div class="s3-row">
+      <span class="s3-label">Lifecycle Rule</span>
+      <span class="s3-val">
+        <span class="badge badge-blue">🧊 Glacier IR after {{ s3_result.lifecycle.glacier_ir_after_days }} days</span>
+        &nbsp;
+        <span class="badge badge-blue">🏔 Deep Archive after {{ s3_result.lifecycle.deep_archive_after_days }} days</span>
+      </span>
+    </div>
+    <div class="s3-row"><span class="s3-label">Rule ID</span><span class="s3-val">{{ s3_result.lifecycle.rule_id }}</span></div>
+    <div class="s3-row"><span class="s3-label">Applies to prefix</span><span class="s3-val">{{ s3_result.lifecycle.prefix }}</span></div>
+    {% endif %}
+  </div>
+</div>
+{% else %}
+<div class="card">
+  <h2>☁️ S3 Status</h2>
+  <div class="s3-box" style="border-color: var(--red);">
+    <div class="s3-row">
+      <span class="s3-label">Error</span>
+      <span class="s3-val" style="color:var(--red);">{{ s3_result.error }}</span>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- CSV Content -->
+<div class="card">
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; flex-wrap:wrap; gap:.5rem;">
+    <h2 style="margin:0;">📄 File Contents</h2>
+    <div style="display:flex; gap:.5rem; align-items:center;">
+      <input id="search" type="text" placeholder="Search rows…"
+        style="background:var(--surface2); border:1px solid var(--border); border-radius:7px;
+               padding:.4rem .8rem; color:var(--text); font-size:.85rem; outline:none; width:180px;"
+        oninput="filterTable(this.value)" />
+      <span id="row-count-label" class="badge badge-blue">{{ record.row_count }} rows</span>
+    </div>
+  </div>
+
+  {% if headers and rows %}
+  <div class="table-wrap">
+    <table id="csv-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          {% for col in headers %}
+          <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td style="color:var(--muted); user-select:none;">{{ loop.index }}</td>
+          {% for cell in row %}
+          <td>{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty"><p>The CSV file appears to be empty.</p></div>
+  {% endif %}
+</div>
+
+<script>
+function filterTable(q) {
+  q = q.toLowerCase();
+  const rows = document.querySelectorAll('#csv-table tbody tr');
+  let visible = 0;
+  rows.forEach(tr => {
+    const match = tr.textContent.toLowerCase().includes(q);
+    tr.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+  document.getElementById('row-count-label').textContent = visible + ' rows';
+}
+</script>
+{% endblock %}

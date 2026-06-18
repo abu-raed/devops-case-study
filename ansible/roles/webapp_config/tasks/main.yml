@@ -1,0 +1,36 @@
+---
+- name: Ensure target namespace exists
+  kubernetes.core.k8s:
+    name: "{{ namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Render and apply application ConfigMap ({{ app_env }})
+  kubernetes.core.k8s:
+    state: present
+    template: configmap.yaml.j2
+  register: app_configmap_result
+
+- name: Render and apply nginx ConfigMap ({{ app_env }})
+  kubernetes.core.k8s:
+    state: present
+    template: nginx-configmap.yaml.j2
+  register: nginx_configmap_result
+
+- name: Restart webapp rollout so pods pick up new config
+  kubernetes.core.k8s:
+    state: patched
+    kind: Deployment
+    name: "{{ deployment_name }}"
+    namespace: "{{ namespace }}"
+    definition:
+      spec:
+        template:
+          metadata:
+            annotations:
+              # Forces a new ReplicaSet only when config actually changed.
+              kubectl.kubernetes.io/restartedAt: "{{ now(utc=true).isoformat() }}"
+  when: >
+    restart_deployment_on_change and
+    (app_configmap_result.changed or nginx_configmap_result.changed)

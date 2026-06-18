@@ -1,0 +1,128 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  name: devops-case.k8s.local
+spec:
+  kubernetesVersion: "1.35.5"
+  cloudProvider: aws
+  configBase: s3://devops-case-kops-state-kubeios/devops-case.k8s.local
+
+  # --- Networking -------------------------------------------------------
+  networking:
+    cilium: {}
+  nonMasqueradeCIDR: 100.64.0.0/10
+  networkCIDR: 10.0.0.0/16
+
+  topology:
+    masters: private
+    nodes: private
+    dns:
+      type: Public
+
+  subnets:
+  - name: us-east-1a
+    type: Private
+    zone: us-east-1a
+    cidr: 10.0.32.0/19
+  - name: us-east-1b
+    type: Private
+    zone: us-east-1b
+    cidr: 10.0.64.0/19
+  - name: us-east-1c                 
+    type: Private
+    zone: us-east-1c
+    cidr: 10.0.96.0/19
+
+  - name: utility-us-east-1a
+    type: Utility
+    zone: us-east-1a
+    cidr: 10.0.0.0/22
+  - name: utility-us-east-1b
+    type: Utility
+    zone: us-east-1b
+    cidr: 10.0.4.0/22
+  - name: utility-us-east-1c        # ← add this
+    type: Utility
+    zone: us-east-1c
+    cidr: 10.0.8.0/22
+
+  api:
+    loadBalancer:
+      type: Public
+      class: Network
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+
+  sshAccess:
+  - 0.0.0.0/0
+
+
+
+  # --- etcd (HA across 2 AZs + tie-breaker) ------------------------------
+  etcdClusters:
+  - name: main
+    etcdMembers:
+    - instanceGroup: master-us-east-1a
+      name: a
+    - instanceGroup: master-us-east-1b
+      name: b
+    - instanceGroup: master-us-east-1c   # ← add this
+      name: c
+    cpuRequest: 100m
+    memoryRequest: 100Mi
+  - name: events
+    etcdMembers:
+    - instanceGroup: master-us-east-1a
+      name: a
+    - instanceGroup: master-us-east-1b
+      name: b
+    - instanceGroup: master-us-east-1c
+      name: c
+    cpuRequest: 100m
+    memoryRequest: 100Mi
+
+  # --- IAM ----------------------------------------------------------------
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+    # Grants the worker-node IAM role permissions required by the
+    # Cluster Autoscaler to discover and resize ASGs (used by all
+    # node instance groups below).
+    additionalPolicies:
+      node: |
+        [
+          {
+            "Effect": "Allow",
+            "Action": [
+              "autoscaling:DescribeAutoScalingGroups",
+              "autoscaling:DescribeAutoScalingInstances",
+              "autoscaling:DescribeLaunchConfigurations",
+              "autoscaling:DescribeScalingActivities",
+              "autoscaling:DescribeTags",
+              "ec2:DescribeLaunchTemplateVersions",
+              "ec2:DescribeInstanceTypes"
+            ],
+            "Resource": ["*"]
+          },
+          {
+            "Effect": "Allow",
+            "Action": [
+              "autoscaling:SetDesiredCapacity",
+              "autoscaling:TerminateInstanceInAutoScalingGroup",
+              "autoscaling:UpdateAutoScalingGroup"
+            ],
+            "Resource": ["*"],
+            "Condition": {
+              "StringEquals": {
+                "autoscaling:ResourceTag/k8s.io/cluster-autoscaler/devops-case.k8s.local": "true"
+              }
+            }
+          }
+        ]
+
+  kubelet:
+    anonymousAuth: false
+
+  cloudConfig:
+    awsEBSCSIDriver:
+      enabled: true

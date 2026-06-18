@@ -1,0 +1,35 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  name: ig-app-ondemand
+  labels:
+    kops.k8s.io/cluster: devops-case.k8s.local
+spec:
+  role: Node
+  machineType: t3.small
+  rootVolumeSize: 20
+  rootVolumeType: gp3
+  minSize: 1
+  maxSize: 3
+  subnets:
+  - us-east-1a
+  - us-east-1b
+  - us-east-1c
+  mixedInstancesPolicy:
+    instances:
+    - t3.small
+    - t3.medium
+    - t2.small
+    onDemandAboveBase: 100
+    onDemandBase: 1
+    spotAllocationStrategy: lowest-price
+  nodeLabels:
+    kops.k8s.io/instancegroup: ig-app-ondemand
+    lifecycle: on-demand
+    workload-tier: baseline
+  cloudLabels:
+    k8s.io/cluster-autoscaler/enabled: "true"
+    k8s.io/cluster-autoscaler/devops-case.k8s.local: "true"
+    k8s.io/cluster-autoscaler/node-template/label/lifecycle: on-demand
+    k8s.io/cluster-autoscaler/node-template/label/workload-tier: baseline
+    Environment: production

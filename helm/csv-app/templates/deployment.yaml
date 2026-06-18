@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.nameOverride | default .Chart.Name }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
+  labels:
+    app: {{ .Values.appLabel | default (.Values.nameOverride | default .Chart.Name) }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabel | default (.Values.nameOverride | default .Chart.Name) }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabel | default (.Values.nameOverride | default .Chart.Name) }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      containers:
+        - name: {{ .Values.appContainer.name }}
+          image: "{{ .Values.appContainer.image.repository }}:{{ .Values.appContainer.image.tag }}"
+          imagePullPolicy: {{ .Values.appContainer.image.pullPolicy }}
+          ports:
+            {{- toYaml .Values.appContainer.ports | nindent 12 }}
+
+          {{- with .Values.appContainer.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.appContainer.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.appContainer.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.appContainer.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.appContainer.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.appContainer.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+        - name: {{ .Values.nginxContainer.name }}
+          image: "{{ .Values.nginxContainer.image.repository }}:{{ .Values.nginxContainer.image.tag }}"
+          imagePullPolicy: {{ .Values.nginxContainer.image.pullPolicy }}
+          ports:
+            {{- toYaml .Values.nginxContainer.ports | nindent 12 }}
+
+          {{- with .Values.nginxContainer.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.nginxContainer.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.nginxContainer.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.nginxContainer.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}

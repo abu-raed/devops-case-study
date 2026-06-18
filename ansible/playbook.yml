@@ -1,0 +1,26 @@
+---
+# Applies environment-specific application configuration to the
+# Kubernetes cluster identified by each host's kubeconfig context.
+#
+# Usage:
+#   ansible-playbook playbook.yml --limit production
+#   ansible-playbook playbook.yml --limit staging
+- name: Manage webapp configuration
+  hosts: k8s_clusters
+  gather_facts: false
+  environment:
+    K8S_AUTH_CONTEXT: "{{ kubeconfig_context }}"
+
+  pre_tasks:
+    - name: Verify kubectl/kubeconfig connectivity
+      kubernetes.core.k8s_info:
+        kind: Namespace
+        name: kube-system
+      register: connectivity_check
+
+    - name: Show target context
+      debug:
+        msg: "Applying config for env={{ app_env }} via context={{ kubeconfig_context }}"
+
+  roles:
+    - webapp_config

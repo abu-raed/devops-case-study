@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}CSV Processor — Upload{% endblock %}
+
+{% block content %}
+<h1>CSV File Processor</h1>
+<p class="sub">Upload a CSV file to parse, view, and archive it automatically to S3 with Glacier lifecycle policy.</p>
+
+{% if not s3_configured %}
+<div class="notice">
+  ⚠️ <strong>S3 not configured.</strong>
+  Set the <code>S3_BUCKET</code>, <code>AWS_ACCESS_KEY_ID</code>, and <code>AWS_SECRET_ACCESS_KEY</code>
+  environment variables to enable automatic S3 upload and Glacier archiving.
+</div>
+{% else %}
+<div class="notice" style="background:rgba(62,207,142,.07); border-color:var(--green); color:var(--green);">
+  ✅ S3 bucket <strong>{{ s3_bucket }}</strong> configured.
+  Files will transition to Glacier after <strong>{{ glacier_days }} days</strong>.
+</div>
+{% endif %}
+
+<!-- Upload card -->
+<div class="card">
+  <h2>Upload CSV File</h2>
+  <form action="/upload" method="post" enctype="multipart/form-data" id="upload-form">
+    <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+      <div class="icon">📂</div>
+      <p><strong>Click to browse</strong> or drag &amp; drop a CSV file here</p>
+      <p style="margin-top:.4rem; font-size:.8rem;">Supported: .csv · Max 16 MB</p>
+      <p id="file-name" style="margin-top:.8rem; color:var(--accent-light); display:none;"></p>
+    </div>
+    <input type="file" name="csv_file" id="file-input" accept=".csv" required />
+    <div style="margin-top:1rem; display:flex; gap:.75rem; align-items:center;">
+      <button type="submit" class="btn btn-primary" id="submit-btn" disabled>
+        ⬆ Process &amp; Upload
+      </button>
+      <span id="processing-msg" style="color:var(--muted); font-size:.85rem; display:none;">Processing…</span>
+    </div>
+  </form>
+</div>
+
+<!-- History -->
+<div id="history">
+  <h2>Previously Processed Files</h2>
+  {% if records %}
+  <div class="card" style="padding:0 1.5rem;">
+    {% for r in records %}
+    <div class="history-row">
+      <div>
+        <div class="history-name">{{ r.original_name }}</div>
+        <div class="history-meta">
+          {{ r.uploaded_at[:19].replace('T', ' ') }} UTC &nbsp;·&nbsp;
+          {{ r.row_count }} rows &nbsp;·&nbsp;
+          {{ r.columns | length }} columns
+        </div>
+      </div>
+      <div style="display:flex; gap:.5rem; align-items:center; flex-wrap:wrap;">
+        {% if r.s3.success %}
+          <span class="badge badge-green">✓ S3</span>
+          {% if r.s3.lifecycle and r.s3.lifecycle.applied %}
+            <span class="badge badge-blue">🧊 Glacier {{ r.s3.lifecycle.glacier_ir_after_days }}d</span>
+          {% endif %}
+        {% elif r.s3.error %}
+          <span class="badge badge-yellow" title="{{ r.s3.error }}">⚠ No S3</span>
+        {% endif %}
+        <a href="/api/file/{{ r.id }}" class="btn btn-secondary" style="font-size:.78rem; padding:.3rem .8rem;">
+          JSON ↗
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card">
+    <div class="empty">
+      <div class="icon">🗂</div>
+      <p>No files processed yet. Upload your first CSV above.</p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  const zone   = document.getElementById('drop-zone');
+  const input  = document.getElementById('file-input');
+  const btn    = document.getElementById('submit-btn');
+  const label  = document.getElementById('file-name');
+  const form   = document.getElementById('upload-form');
+  const procMsg = document.getElementById('processing-msg');
+
+  function setFile(name) {
+    label.textContent = '📄 ' + name;
+    label.style.display = 'block';
+    btn.disabled = false;
+  }
+
+  input.addEventListener('change', () => {
+    if (input.files.length) setFile(input.files[0].name);
+  });
+
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.name.endsWith('.csv')) {
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      input.files = dt.files;
+      setFile(file.name);
+    }
+  });
+
+  form.addEventListener('submit', () => {
+    btn.disabled = true;
+    btn.textContent = 'Uploading…';
+    procMsg.style.display = 'inline';
+  });
+</script>
+{% endblock %}

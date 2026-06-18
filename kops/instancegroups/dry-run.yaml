@@ -1,0 +1,887 @@
+Will create resources:
+  AutoscalingGroup/ig-app-ondemand.devops-case.k8s.local
+  	Granularity         	1Minute
+  	InstanceProtection  	false
+  	LaunchTemplate      	name:ig-app-ondemand.devops-case.k8s.local
+  	LoadBalancers       	[]
+  	MaxInstanceLifetime 	0
+  	MaxSize             	6
+  	Metrics             	[GroupDesiredCapacity, GroupInServiceInstances, GroupMaxSize, GroupMinSize, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances]
+  	MinSize             	2
+  	MixedInstanceOverrides	[m5.large, m5a.large, m5n.large, m4.large]
+  	MixedOnDemandBase   	1
+  	MixedOnDemandAboveBase	100
+  	MixedSpotAllocationStrategy	lowest-price
+  	MixedSpotMaxPrice   	
+  	Subnets             	[name:us-east-1a.devops-case.k8s.local, name:us-east-1b.devops-case.k8s.local, name:us-east-1c.devops-case.k8s.local]
+  	SuspendProcesses    	[]
+  	Tags                	{kops.k8s.io/instancegroup: ig-app-ondemand, Name: ig-app-ondemand.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, k8s.io/cluster-autoscaler/node-template/label/lifecycle: on-demand, Environment: production, k8s.io/cluster-autoscaler/devops-case.k8s.local: true, k8s.io/cluster-autoscaler/enabled: true, aws-node-termination-handler/managed: , k8s.io/cluster-autoscaler/node-template/label/workload-tier: baseline, k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: ig-app-ondemand, k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/node: , k8s.io/role/node: 1}
+  	TargetGroups        	[]
+
+  AutoscalingGroup/ig-app-spot.devops-case.k8s.local
+  	Granularity         	1Minute
+  	InstanceProtection  	false
+  	LaunchTemplate      	name:ig-app-spot.devops-case.k8s.local
+  	LoadBalancers       	[]
+  	MaxInstanceLifetime 	0
+  	MaxSize             	10
+  	Metrics             	[GroupDesiredCapacity, GroupInServiceInstances, GroupMaxSize, GroupMinSize, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances]
+  	MinSize             	0
+  	MixedInstanceOverrides	[m5.large, m5a.large, m5n.large, m5d.large, m4.large]
+  	MixedOnDemandBase   	0
+  	MixedOnDemandAboveBase	0
+  	MixedSpotAllocationStrategy	capacity-optimized
+  	MixedSpotMaxPrice   	
+  	Subnets             	[name:us-east-1a.devops-case.k8s.local, name:us-east-1b.devops-case.k8s.local, name:us-east-1c.devops-case.k8s.local]
+  	SuspendProcesses    	[]
+  	Tags                	{aws-node-termination-handler/managed: , k8s.io/role/node: 1, Name: ig-app-spot.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, k8s.io/cluster-autoscaler/devops-case.k8s.local: true, k8s.io/cluster-autoscaler/node-template/label/lifecycle: spot, k8s.io/cluster-autoscaler/node-template/taint/spotInstance: true:NoSchedule, k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: ig-app-spot, k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/node: , kops.k8s.io/instancegroup: ig-app-spot, kubernetes.io/cluster/devops-case.k8s.local: owned, Environment: production, k8s.io/cluster-autoscaler/enabled: true, k8s.io/cluster-autoscaler/node-template/label/workload-tier: elastic}
+  	TargetGroups        	[]
+
+  AutoscalingGroup/master-us-east-1a.masters.devops-case.k8s.local
+  	Granularity         	1Minute
+  	InstanceProtection  	false
+  	LaunchTemplate      	name:master-us-east-1a.masters.devops-case.k8s.local
+  	LoadBalancers       	[]
+  	MaxInstanceLifetime 	0
+  	MaxSize             	1
+  	Metrics             	[GroupDesiredCapacity, GroupInServiceInstances, GroupMaxSize, GroupMinSize, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances]
+  	MinSize             	1
+  	Subnets             	[name:us-east-1a.devops-case.k8s.local]
+  	SuspendProcesses    	[]
+  	Tags                	{kops.k8s.io/instancegroup: master-us-east-1a, Environment: production, aws-node-termination-handler/managed: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/kops-controller-pki: , k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/control-plane: , k8s.io/role/control-plane: 1, Name: master-us-east-1a.masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Role: control-plane, k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: master-us-east-1a, k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/exclude-from-external-load-balancers: , k8s.io/role/master: 1}
+  	TargetGroups        	[name:tcp-devops-case-k8s-local-oqueo1 id:tcp-devops-case-k8s-local-oqueo1]
+
+  AutoscalingGroup/master-us-east-1b.masters.devops-case.k8s.local
+  	Granularity         	1Minute
+  	InstanceProtection  	false
+  	LaunchTemplate      	name:master-us-east-1b.masters.devops-case.k8s.local
+  	LoadBalancers       	[]
+  	MaxInstanceLifetime 	0
+  	MaxSize             	1
+  	Metrics             	[GroupDesiredCapacity, GroupInServiceInstances, GroupMaxSize, GroupMinSize, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances]
+  	MinSize             	1
+  	Subnets             	[name:us-east-1b.devops-case.k8s.local]
+  	SuspendProcesses    	[]
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, Role: control-plane, k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: master-us-east-1b, k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/kops-controller-pki: , k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/exclude-from-external-load-balancers: , k8s.io/role/master: 1, k8s.io/role/control-plane: 1, kubernetes.io/cluster/devops-case.k8s.local: owned, Environment: production, aws-node-termination-handler/managed: , k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/control-plane: , kops.k8s.io/instancegroup: master-us-east-1b, Name: master-us-east-1b.masters.devops-case.k8s.local}
+  	TargetGroups        	[name:tcp-devops-case-k8s-local-oqueo1 id:tcp-devops-case-k8s-local-oqueo1]
+
+  AutoscalingGroup/master-us-east-1c.masters.devops-case.k8s.local
+  	Granularity         	1Minute
+  	InstanceProtection  	false
+  	LaunchTemplate      	name:master-us-east-1c.masters.devops-case.k8s.local
+  	LoadBalancers       	[]
+  	MaxInstanceLifetime 	0
+  	MaxSize             	1
+  	Metrics             	[GroupDesiredCapacity, GroupInServiceInstances, GroupMaxSize, GroupMinSize, GroupPendingInstances, GroupStandbyInstances, GroupTerminatingInstances, GroupTotalInstances]
+  	MinSize             	1
+  	Subnets             	[name:us-east-1c.devops-case.k8s.local]
+  	SuspendProcesses    	[]
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Environment: production, Role: control-plane, k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/control-plane: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: master-us-east-1c, k8s.io/role/master: 1, kops.k8s.io/instancegroup: master-us-east-1c, Name: master-us-east-1c.masters.devops-case.k8s.local, aws-node-termination-handler/managed: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/kops-controller-pki: , k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/exclude-from-external-load-balancers: , k8s.io/role/control-plane: 1}
+  	TargetGroups        	[name:tcp-devops-case-k8s-local-oqueo1 id:tcp-devops-case-k8s-local-oqueo1]
+
+  AutoscalingLifecycleHook/ig-app-ondemand-NTHLifecycleHook
+  	ID                  	ig-app-ondemand-NTHLifecycleHook
+  	AutoscalingGroup    	name:ig-app-ondemand.devops-case.k8s.local id:ig-app-ondemand.devops-case.k8s.local
+  	DefaultResult       	CONTINUE
+  	HeartbeatTimeout    	300
+  	LifecycleTransition 	autoscaling:EC2_INSTANCE_TERMINATING
+  	Enabled             	true
+
+  AutoscalingLifecycleHook/ig-app-spot-NTHLifecycleHook
+  	ID                  	ig-app-spot-NTHLifecycleHook
+  	AutoscalingGroup    	name:ig-app-spot.devops-case.k8s.local id:ig-app-spot.devops-case.k8s.local
+  	DefaultResult       	CONTINUE
+  	HeartbeatTimeout    	300
+  	LifecycleTransition 	autoscaling:EC2_INSTANCE_TERMINATING
+  	Enabled             	true
+
+  AutoscalingLifecycleHook/master-us-east-1a-NTHLifecycleHook
+  	ID                  	master-us-east-1a-NTHLifecycleHook
+  	AutoscalingGroup    	name:master-us-east-1a.masters.devops-case.k8s.local id:master-us-east-1a.masters.devops-case.k8s.local
+  	DefaultResult       	CONTINUE
+  	HeartbeatTimeout    	300
+  	LifecycleTransition 	autoscaling:EC2_INSTANCE_TERMINATING
+  	Enabled             	true
+
+  AutoscalingLifecycleHook/master-us-east-1b-NTHLifecycleHook
+  	ID                  	master-us-east-1b-NTHLifecycleHook
+  	AutoscalingGroup    	name:master-us-east-1b.masters.devops-case.k8s.local id:master-us-east-1b.masters.devops-case.k8s.local
+  	DefaultResult       	CONTINUE
+  	HeartbeatTimeout    	300
+  	LifecycleTransition 	autoscaling:EC2_INSTANCE_TERMINATING
+  	Enabled             	true
+
+  AutoscalingLifecycleHook/master-us-east-1c-NTHLifecycleHook
+  	ID                  	master-us-east-1c-NTHLifecycleHook
+  	AutoscalingGroup    	name:master-us-east-1c.masters.devops-case.k8s.local id:master-us-east-1c.masters.devops-case.k8s.local
+  	DefaultResult       	CONTINUE
+  	HeartbeatTimeout    	300
+  	LifecycleTransition 	autoscaling:EC2_INSTANCE_TERMINATING
+  	Enabled             	true
+
+  DHCPOptions/devops-case.k8s.local
+  	DomainName          	ec2.internal
+  	DomainNameServers   	AmazonProvidedDNS
+  	Shared              	false
+  	Tags                	{Name: devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  EBSVolume/a.etcd-events.devops-case.k8s.local
+  	AvailabilityZone    	us-east-1a
+  	Encrypted           	false
+  	SizeGB              	20
+  	Tags                	{k8s.io/etcd/events: a/a,b,c, k8s.io/role/control-plane: 1, k8s.io/role/master: 1, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: a.etcd-events.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+  	VolumeIops          	3000
+  	VolumeThroughput    	125
+  	VolumeType          	gp3
+
+  EBSVolume/a.etcd-main.devops-case.k8s.local
+  	AvailabilityZone    	us-east-1a
+  	Encrypted           	false
+  	SizeGB              	20
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, k8s.io/etcd/main: a/a,b,c, k8s.io/role/control-plane: 1, k8s.io/role/master: 1, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: a.etcd-main.devops-case.k8s.local}
+  	VolumeIops          	3000
+  	VolumeThroughput    	125
+  	VolumeType          	gp3
+
+  EBSVolume/b.etcd-events.devops-case.k8s.local
+  	AvailabilityZone    	us-east-1b
+  	Encrypted           	false
+  	SizeGB              	20
+  	Tags                	{k8s.io/etcd/events: b/a,b,c, k8s.io/role/control-plane: 1, k8s.io/role/master: 1, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: b.etcd-events.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+  	VolumeIops          	3000
+  	VolumeThroughput    	125
+  	VolumeType          	gp3
+
+  EBSVolume/b.etcd-main.devops-case.k8s.local
+  	AvailabilityZone    	us-east-1b
+  	Encrypted           	false
+  	SizeGB              	20
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, Name: b.etcd-main.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, k8s.io/etcd/main: b/a,b,c, k8s.io/role/control-plane: 1, k8s.io/role/master: 1}
+  	VolumeIops          	3000
+  	VolumeThroughput    	125
+  	VolumeType          	gp3
+
+  EBSVolume/c.etcd-events.devops-case.k8s.local
+  	AvailabilityZone    	us-east-1c
+  	Encrypted           	false
+  	SizeGB              	20
+  	Tags                	{k8s.io/role/control-plane: 1, k8s.io/role/master: 1, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: c.etcd-events.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, k8s.io/etcd/events: c/a,b,c}
+  	VolumeIops          	3000
+  	VolumeThroughput    	125
+  	VolumeType          	gp3
+
+  EBSVolume/c.etcd-main.devops-case.k8s.local
+  	AvailabilityZone    	us-east-1c
+  	Encrypted           	false
+  	SizeGB              	20
+  	Tags                	{k8s.io/etcd/main: c/a,b,c, k8s.io/role/control-plane: 1, k8s.io/role/master: 1, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: c.etcd-main.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+  	VolumeIops          	3000
+  	VolumeThroughput    	125
+  	VolumeType          	gp3
+
+  ElasticIP/us-east-1a.devops-case.k8s.local
+  	Tags                	{Name: us-east-1a.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	AssociatedNatGatewayRouteTable	name:private-us-east-1a.devops-case.k8s.local
+
+  ElasticIP/us-east-1b.devops-case.k8s.local
+  	Tags                	{Name: us-east-1b.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	AssociatedNatGatewayRouteTable	name:private-us-east-1b.devops-case.k8s.local
+
+  ElasticIP/us-east-1c.devops-case.k8s.local
+  	Tags                	{Name: us-east-1c.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	AssociatedNatGatewayRouteTable	name:private-us-east-1c.devops-case.k8s.local
+
+  EventBridgeRule/devops-case.k8s.local-ASGLifecycle
+  	EventPattern        	{"source":["aws.autoscaling"],"detail-type":["EC2 Instance-terminate Lifecycle Action"]}
+  	SQSQueue            	name:devops-case-k8s-local-nth
+  	Tags                	{Name: devops-case.k8s.local-ASGLifecycle, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  EventBridgeRule/devops-case.k8s.local-InstanceScheduledChange
+  	EventPattern        	{"source": ["aws.health"],"detail-type": ["AWS Health Event"],"detail": {"service": ["EC2"],"eventTypeCategory": ["scheduledChange"]}}
+  	SQSQueue            	name:devops-case-k8s-local-nth
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, Name: devops-case.k8s.local-InstanceScheduledChange, KubernetesCluster: devops-case.k8s.local}
+
+  EventBridgeRule/devops-case.k8s.local-InstanceStateChange
+  	EventPattern        	{"source": ["aws.ec2"],"detail-type": ["EC2 Instance State-change Notification"]}
+  	SQSQueue            	name:devops-case-k8s-local-nth
+  	Tags                	{Name: devops-case.k8s.local-InstanceStateChange, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  EventBridgeRule/devops-case.k8s.local-SpotInterruption
+  	EventPattern        	{"source": ["aws.ec2"],"detail-type": ["EC2 Spot Instance Interruption Warning"]}
+  	SQSQueue            	name:devops-case-k8s-local-nth
+  	Tags                	{Name: devops-case.k8s.local-SpotInterruption, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  EventBridgeTarget/devops-case.k8s.local-ASGLifecycle-Target
+  	Rule                	name:devops-case.k8s.local-ASGLifecycle id:devops-case.k8s.local-ASGLifecycle
+  	SQSQueue            	name:devops-case-k8s-local-nth
+
+  EventBridgeTarget/devops-case.k8s.local-InstanceScheduledChange-Target
+  	Rule                	name:devops-case.k8s.local-InstanceScheduledChange id:devops-case.k8s.local-InstanceScheduledChange
+  	SQSQueue            	name:devops-case-k8s-local-nth
+
+  EventBridgeTarget/devops-case.k8s.local-InstanceStateChange-Target
+  	Rule                	name:devops-case.k8s.local-InstanceStateChange id:devops-case.k8s.local-InstanceStateChange
+  	SQSQueue            	name:devops-case-k8s-local-nth
+
+  EventBridgeTarget/devops-case.k8s.local-SpotInterruption-Target
+  	Rule                	name:devops-case.k8s.local-SpotInterruption id:devops-case.k8s.local-SpotInterruption
+  	SQSQueue            	name:devops-case-k8s-local-nth
+
+  IAMInstanceProfile/masters.devops-case.k8s.local
+  	Tags                	{Name: masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	Shared              	false
+
+  IAMInstanceProfile/nodes.devops-case.k8s.local
+  	Tags                	{Name: nodes.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	Shared              	false
+
+  IAMInstanceProfileRole/masters.devops-case.k8s.local
+  	InstanceProfile     	name:masters.devops-case.k8s.local id:masters.devops-case.k8s.local
+  	Role                	name:masters.devops-case.k8s.local
+
+  IAMInstanceProfileRole/nodes.devops-case.k8s.local
+  	InstanceProfile     	name:nodes.devops-case.k8s.local id:nodes.devops-case.k8s.local
+  	Role                	name:nodes.devops-case.k8s.local
+
+  IAMRole/masters.devops-case.k8s.local
+  	Tags                	{Name: masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	ExportWithID        	masters
+
+  IAMRole/nodes.devops-case.k8s.local
+  	Tags                	{Name: nodes.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	ExportWithID        	nodes
+
+  IAMRolePolicy/master-policyoverride
+  	Role                	name:masters.devops-case.k8s.local
+  	Managed             	true
+
+  IAMRolePolicy/masters.devops-case.k8s.local
+  	Role                	name:masters.devops-case.k8s.local
+  	Managed             	false
+
+  IAMRolePolicy/node-policyoverride
+  	Role                	name:nodes.devops-case.k8s.local
+  	Managed             	true
+
+  IAMRolePolicy/nodes.devops-case.k8s.local
+  	Role                	name:nodes.devops-case.k8s.local
+  	Managed             	false
+
+  InternetGateway/devops-case.k8s.local
+  	VPC                 	name:devops-case.k8s.local
+  	Shared              	false
+  	Tags                	{Name: devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  Keypair/apiserver-aggregator-ca
+  	Subject             	cn=apiserver-aggregator-ca
+  	Issuer              	
+  	Type                	ca
+  	LegacyFormat        	false
+
+  Keypair/etcd-clients-ca
+  	Subject             	cn=etcd-clients-ca
+  	Issuer              	
+  	Type                	ca
+  	LegacyFormat        	false
+
+  Keypair/etcd-manager-ca-events
+  	Subject             	cn=etcd-manager-ca-events
+  	Issuer              	
+  	Type                	ca
+  	LegacyFormat        	false
+
+  Keypair/etcd-manager-ca-main
+  	Subject             	cn=etcd-manager-ca-main
+  	Issuer              	
+  	Type                	ca
+  	LegacyFormat        	false
+
+  Keypair/etcd-peers-ca-events
+  	Subject             	cn=etcd-peers-ca-events
+  	Issuer              	
+  	Type                	ca
+  	LegacyFormat        	false
+
+  Keypair/etcd-peers-ca-main
+  	Subject             	cn=etcd-peers-ca-main
+  	Issuer              	
+  	Type                	ca
+  	LegacyFormat        	false
+
+  Keypair/kubernetes-ca
+  	Subject             	cn=kubernetes-ca
+  	Issuer              	
+  	Type                	ca
+  	LegacyFormat        	false
+
+  Keypair/service-account
+  	Subject             	cn=service-account
+  	Issuer              	
+  	Type                	ca
+  	LegacyFormat        	false
+
+  LaunchTemplate/ig-app-ondemand.devops-case.k8s.local
+  	AssociatePublicIP   	false
+  	CPUCredits          	
+  	HTTPPutResponseHopLimit	1
+  	HTTPTokens          	required
+  	HTTPProtocolIPv6    	disabled
+  	IAMInstanceProfile  	name:nodes.devops-case.k8s.local id:nodes.devops-case.k8s.local
+  	ImageID             	099720109477/ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20260218
+  	InstanceMonitoring  	false
+  	InstanceType        	m5.large
+  	IPv6AddressCount    	0
+  	RootVolumeIops      	3000
+  	RootVolumeSize      	80
+  	RootVolumeThroughput	125
+  	RootVolumeType      	gp3
+  	RootVolumeEncryption	true
+  	RootVolumeKmsKey    	
+  	SSHKey              	name:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e id:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e
+  	SecurityGroups      	[name:nodes.devops-case.k8s.local]
+  	SpotPrice           	
+  	Tags                	{k8s.io/cluster-autoscaler/node-template/label/workload-tier: baseline, aws-node-termination-handler/managed: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: ig-app-ondemand, kops.k8s.io/instancegroup: ig-app-ondemand, Name: ig-app-ondemand.devops-case.k8s.local, Environment: production, k8s.io/cluster-autoscaler/devops-case.k8s.local: true, k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/node: , k8s.io/role/node: 1, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, k8s.io/cluster-autoscaler/enabled: true, k8s.io/cluster-autoscaler/node-template/label/lifecycle: on-demand}
+
+  LaunchTemplate/ig-app-spot.devops-case.k8s.local
+  	AssociatePublicIP   	false
+  	CPUCredits          	
+  	HTTPPutResponseHopLimit	1
+  	HTTPTokens          	required
+  	HTTPProtocolIPv6    	disabled
+  	IAMInstanceProfile  	name:nodes.devops-case.k8s.local id:nodes.devops-case.k8s.local
+  	ImageID             	099720109477/ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20260218
+  	InstanceMonitoring  	false
+  	InstanceType        	m5.large
+  	IPv6AddressCount    	0
+  	RootVolumeIops      	3000
+  	RootVolumeSize      	80
+  	RootVolumeThroughput	125
+  	RootVolumeType      	gp3
+  	RootVolumeEncryption	true
+  	RootVolumeKmsKey    	
+  	SSHKey              	name:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e id:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e
+  	SecurityGroups      	[name:nodes.devops-case.k8s.local]
+  	SpotPrice           	
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, k8s.io/cluster-autoscaler/devops-case.k8s.local: true, k8s.io/cluster-autoscaler/node-template/label/lifecycle: spot, k8s.io/cluster-autoscaler/node-template/label/workload-tier: elastic, k8s.io/cluster-autoscaler/node-template/taint/spotInstance: true:NoSchedule, Environment: production, aws-node-termination-handler/managed: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: ig-app-spot, Name: ig-app-spot.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, k8s.io/cluster-autoscaler/enabled: true, k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/node: , k8s.io/role/node: 1, kops.k8s.io/instancegroup: ig-app-spot}
+
+  LaunchTemplate/master-us-east-1a.masters.devops-case.k8s.local
+  	AssociatePublicIP   	false
+  	CPUCredits          	
+  	HTTPPutResponseHopLimit	1
+  	HTTPTokens          	required
+  	HTTPProtocolIPv6    	disabled
+  	IAMInstanceProfile  	name:masters.devops-case.k8s.local id:masters.devops-case.k8s.local
+  	ImageID             	099720109477/ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20260218
+  	InstanceMonitoring  	false
+  	InstanceType        	t3.medium
+  	IPv6AddressCount    	0
+  	RootVolumeIops      	3000
+  	RootVolumeSize      	64
+  	RootVolumeThroughput	125
+  	RootVolumeType      	gp3
+  	RootVolumeEncryption	true
+  	RootVolumeKmsKey    	
+  	SSHKey              	name:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e id:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e
+  	SecurityGroups      	[name:masters.devops-case.k8s.local]
+  	SpotPrice           	
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Environment: production, aws-node-termination-handler/managed: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: master-us-east-1a, k8s.io/role/master: 1, k8s.io/role/control-plane: 1, kops.k8s.io/instancegroup: master-us-east-1a, Name: master-us-east-1a.masters.devops-case.k8s.local, Role: control-plane, k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/exclude-from-external-load-balancers: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/kops-controller-pki: , k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/control-plane: }
+
+  LaunchTemplate/master-us-east-1b.masters.devops-case.k8s.local
+  	AssociatePublicIP   	false
+  	CPUCredits          	
+  	HTTPPutResponseHopLimit	1
+  	HTTPTokens          	required
+  	HTTPProtocolIPv6    	disabled
+  	IAMInstanceProfile  	name:masters.devops-case.k8s.local id:masters.devops-case.k8s.local
+  	ImageID             	099720109477/ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20260218
+  	InstanceMonitoring  	false
+  	InstanceType        	t3.medium
+  	IPv6AddressCount    	0
+  	RootVolumeIops      	3000
+  	RootVolumeSize      	64
+  	RootVolumeThroughput	125
+  	RootVolumeType      	gp3
+  	RootVolumeEncryption	true
+  	RootVolumeKmsKey    	
+  	SSHKey              	name:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e id:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e
+  	SecurityGroups      	[name:masters.devops-case.k8s.local]
+  	SpotPrice           	
+  	Tags                	{k8s.io/role/master: 1, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/control-plane: , k8s.io/role/control-plane: 1, kops.k8s.io/instancegroup: master-us-east-1b, Name: master-us-east-1b.masters.devops-case.k8s.local, Role: control-plane, Environment: production, aws-node-termination-handler/managed: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: master-us-east-1b, k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/kops-controller-pki: , k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/exclude-from-external-load-balancers: }
+
+  LaunchTemplate/master-us-east-1c.masters.devops-case.k8s.local
+  	AssociatePublicIP   	false
+  	CPUCredits          	
+  	HTTPPutResponseHopLimit	1
+  	HTTPTokens          	required
+  	HTTPProtocolIPv6    	disabled
+  	IAMInstanceProfile  	name:masters.devops-case.k8s.local id:masters.devops-case.k8s.local
+  	ImageID             	099720109477/ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20260218
+  	InstanceMonitoring  	false
+  	InstanceType        	t3.medium
+  	IPv6AddressCount    	0
+  	RootVolumeIops      	3000
+  	RootVolumeSize      	64
+  	RootVolumeThroughput	125
+  	RootVolumeType      	gp3
+  	RootVolumeEncryption	true
+  	RootVolumeKmsKey    	
+  	SSHKey              	name:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e id:kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e
+  	SecurityGroups      	[name:masters.devops-case.k8s.local]
+  	SpotPrice           	
+  	Tags                	{k8s.io/cluster-autoscaler/node-template/label/node-role.kubernetes.io/control-plane: , k8s.io/role/control-plane: 1, kops.k8s.io/instancegroup: master-us-east-1c, Role: control-plane, k8s.io/cluster-autoscaler/node-template/label/node.kubernetes.io/exclude-from-external-load-balancers: , k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/instancegroup: master-us-east-1c, k8s.io/cluster-autoscaler/node-template/label/kops.k8s.io/kops-controller-pki: , k8s.io/role/master: 1, Name: master-us-east-1c.masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Environment: production, aws-node-termination-handler/managed: }
+
+  ManagedFile/cluster-completed.spec
+  	Base                	s3://devops-case-kops-state-rizwan/devops-case.k8s.local
+  	Location            	cluster-completed.spec
+
+  ManagedFile/devops-case.k8s.local-addons-aws-cloud-controller.addons.k8s.io-k8s-1.18
+  	Location            	addons/aws-cloud-controller.addons.k8s.io/k8s-1.18.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-aws-ebs-csi-driver.addons.k8s.io-k8s-1.17
+  	Location            	addons/aws-ebs-csi-driver.addons.k8s.io/k8s-1.17.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-bootstrap
+  	Location            	addons/bootstrap-channel.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-coredns.addons.k8s.io-k8s-1.12
+  	Location            	addons/coredns.addons.k8s.io/k8s-1.12.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-dns-controller.addons.k8s.io-k8s-1.12
+  	Location            	addons/dns-controller.addons.k8s.io/k8s-1.12.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-kops-controller.addons.k8s.io-k8s-1.16
+  	Location            	addons/kops-controller.addons.k8s.io/k8s-1.16.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-kubelet-api.rbac.addons.k8s.io-k8s-1.9
+  	Location            	addons/kubelet-api.rbac.addons.k8s.io/k8s-1.9.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-limit-range.addons.k8s.io
+  	Location            	addons/limit-range.addons.k8s.io/v1.5.0.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-networking.cilium.io-k8s-1.16
+  	Location            	addons/networking.cilium.io/k8s-1.16-v1.15.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-node-termination-handler.aws-k8s-1.11
+  	Location            	addons/node-termination-handler.aws/k8s-1.11.yaml
+
+  ManagedFile/devops-case.k8s.local-addons-storage-aws.addons.k8s.io-v1.15.0
+  	Location            	addons/storage-aws.addons.k8s.io/v1.15.0.yaml
+
+  ManagedFile/etcd-cluster-spec-events
+  	Base                	s3://devops-case-kops-state-rizwan/devops-case.k8s.local/backups/etcd/events
+  	Location            	/control/etcd-cluster-spec
+
+  ManagedFile/etcd-cluster-spec-main
+  	Base                	s3://devops-case-kops-state-rizwan/devops-case.k8s.local/backups/etcd/main
+  	Location            	/control/etcd-cluster-spec
+
+  ManagedFile/kops-version.txt
+  	Base                	s3://devops-case-kops-state-rizwan/devops-case.k8s.local
+  	Location            	kops-version.txt
+
+  ManagedFile/manifests-etcdmanager-events-master-us-east-1a
+  	Location            	manifests/etcd/events-master-us-east-1a.yaml
+
+  ManagedFile/manifests-etcdmanager-events-master-us-east-1b
+  	Location            	manifests/etcd/events-master-us-east-1b.yaml
+
+  ManagedFile/manifests-etcdmanager-events-master-us-east-1c
+  	Location            	manifests/etcd/events-master-us-east-1c.yaml
+
+  ManagedFile/manifests-etcdmanager-main-master-us-east-1a
+  	Location            	manifests/etcd/main-master-us-east-1a.yaml
+
+  ManagedFile/manifests-etcdmanager-main-master-us-east-1b
+  	Location            	manifests/etcd/main-master-us-east-1b.yaml
+
+  ManagedFile/manifests-etcdmanager-main-master-us-east-1c
+  	Location            	manifests/etcd/main-master-us-east-1c.yaml
+
+  ManagedFile/manifests-static-kube-apiserver-healthcheck
+  	Location            	manifests/static/kube-apiserver-healthcheck.yaml
+
+  ManagedFile/nodeupconfig-ig-app-ondemand
+  	Location            	igconfig/node/ig-app-ondemand/nodeupconfig.yaml
+
+  ManagedFile/nodeupconfig-ig-app-spot
+  	Location            	igconfig/node/ig-app-spot/nodeupconfig.yaml
+
+  ManagedFile/nodeupconfig-master-us-east-1a
+  	Location            	igconfig/control-plane/master-us-east-1a/nodeupconfig.yaml
+
+  ManagedFile/nodeupconfig-master-us-east-1b
+  	Location            	igconfig/control-plane/master-us-east-1b/nodeupconfig.yaml
+
+  ManagedFile/nodeupconfig-master-us-east-1c
+  	Location            	igconfig/control-plane/master-us-east-1c/nodeupconfig.yaml
+
+  NatGateway/us-east-1a.devops-case.k8s.local
+  	ElasticIP           	name:us-east-1a.devops-case.k8s.local
+  	Subnet              	name:utility-us-east-1a.devops-case.k8s.local
+  	Tags                	{Name: us-east-1a.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	AssociatedRouteTable	name:private-us-east-1a.devops-case.k8s.local
+
+  NatGateway/us-east-1b.devops-case.k8s.local
+  	ElasticIP           	name:us-east-1b.devops-case.k8s.local
+  	Subnet              	name:utility-us-east-1b.devops-case.k8s.local
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, Name: us-east-1b.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+  	AssociatedRouteTable	name:private-us-east-1b.devops-case.k8s.local
+
+  NatGateway/us-east-1c.devops-case.k8s.local
+  	ElasticIP           	name:us-east-1c.devops-case.k8s.local
+  	Subnet              	name:utility-us-east-1c.devops-case.k8s.local
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: us-east-1c.devops-case.k8s.local}
+  	AssociatedRouteTable	name:private-us-east-1c.devops-case.k8s.local
+
+  NetworkLoadBalancer/api.devops-case.k8s.local
+  	LoadBalancerBaseName	api-devops-case-k8s-local-kop69m
+  	CLBName             	api.devops-case.k8s.local
+  	SubnetMappings      	[{"Subnet":{"Name":"utility-us-east-1a.devops-case.k8s.local","ShortName":"utility-us-east-1a","Lifecycle":"Sync","ID":null,"VPC":{"Name":"devops-case.k8s.local","Lifecycle":"Sync","ID":null,"CIDR":"10.0.0.0/16","AmazonIPv6":true,"IPv6CIDR":null,"EnableDNSHostnames":true,"EnableDNSSupport":true,"Shared":false,"Tags":{"KubernetesCluster":"devops-case.k8s.local","Name":"devops-case.k8s.local","kubernetes.io/cluster/devops-case.k8s.local":"owned"},"AssociateExtraCIDRBlocks":null},"VPCCIDRBlock":null,"AmazonIPv6CIDR":null,"AvailabilityZone":"us-east-1a","CIDR":"10.0.0.0/22","IPv6CIDR":null,"ResourceBasedNaming":true,"AssignIPv6AddressOnCreation":false,"Shared":false,"Tags":{"KubernetesCluster":"devops-case.k8s.local","Name":"utility-us-east-1a.devops-case.k8s.local","SubnetType":"Utility","kubernetes.io/cluster/devops-case.k8s.local":"owned","kubernetes.io/role/elb":"1"}},"PrivateIPv4Address":null,"AllocationID":null}, {"Subnet":{"Name":"utility-us-east-1b.devops-case.k8s.local","ShortName":"utility-us-east-1b","Lifecycle":"Sync","ID":null,"VPC":{"Name":"devops-case.k8s.local","Lifecycle":"Sync","ID":null,"CIDR":"10.0.0.0/16","AmazonIPv6":true,"IPv6CIDR":null,"EnableDNSHostnames":true,"EnableDNSSupport":true,"Shared":false,"Tags":{"KubernetesCluster":"devops-case.k8s.local","Name":"devops-case.k8s.local","kubernetes.io/cluster/devops-case.k8s.local":"owned"},"AssociateExtraCIDRBlocks":null},"VPCCIDRBlock":null,"AmazonIPv6CIDR":null,"AvailabilityZone":"us-east-1b","CIDR":"10.0.4.0/22","IPv6CIDR":null,"ResourceBasedNaming":true,"AssignIPv6AddressOnCreation":false,"Shared":false,"Tags":{"KubernetesCluster":"devops-case.k8s.local","Name":"utility-us-east-1b.devops-case.k8s.local","SubnetType":"Utility","kubernetes.io/cluster/devops-case.k8s.local":"owned","kubernetes.io/role/elb":"1"}},"PrivateIPv4Address":null,"AllocationID":null}, {"Subnet":{"Name":"utility-us-east-1c.devops-case.k8s.local","ShortName":"utility-us-east-1c","Lifecycle":"Sync","ID":null,"VPC":{"Name":"devops-case.k8s.local","Lifecycle":"Sync","ID":null,"CIDR":"10.0.0.0/16","AmazonIPv6":true,"IPv6CIDR":null,"EnableDNSHostnames":true,"EnableDNSSupport":true,"Shared":false,"Tags":{"KubernetesCluster":"devops-case.k8s.local","Name":"devops-case.k8s.local","kubernetes.io/cluster/devops-case.k8s.local":"owned"},"AssociateExtraCIDRBlocks":null},"VPCCIDRBlock":null,"AmazonIPv6CIDR":null,"AvailabilityZone":"us-east-1c","CIDR":"10.0.8.0/22","IPv6CIDR":null,"ResourceBasedNaming":true,"AssignIPv6AddressOnCreation":false,"Shared":false,"Tags":{"KubernetesCluster":"devops-case.k8s.local","Name":"utility-us-east-1c.devops-case.k8s.local","SubnetType":"Utility","kubernetes.io/cluster/devops-case.k8s.local":"owned","kubernetes.io/role/elb":"1"}},"PrivateIPv4Address":null,"AllocationID":null}]
+  	SecurityGroups      	[name:api-elb.devops-case.k8s.local]
+  	Scheme              	internet-facing
+  	CrossZoneLoadBalancing	false
+  	IpAddressType       	ipv4
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: api.devops-case.k8s.local}
+  	Type                	network
+  	VPC                 	name:devops-case.k8s.local
+  	AccessLog           	{"Enabled":false,"S3BucketName":null,"S3BucketPrefix":null}
+  	WellKnownServices   	[kube-apiserver]
+
+  NetworkLoadBalancerListener/api.devops-case.k8s.local-443
+  	NetworkLoadBalancer 	name:api.devops-case.k8s.local id:api.devops-case.k8s.local
+  	Port                	443
+  	TargetGroup         	name:tcp-devops-case-k8s-local-oqueo1 id:tcp-devops-case-k8s-local-oqueo1
+  	SSLCertificateID    	
+  	SSLPolicy           	
+
+  Route/0.0.0.0/0
+  	RouteTable          	name:devops-case.k8s.local
+  	CIDR                	0.0.0.0/0
+  	InternetGateway     	name:devops-case.k8s.local
+
+  Route/::/0
+  	RouteTable          	name:devops-case.k8s.local
+  	IPv6CIDR            	::/0
+  	InternetGateway     	name:devops-case.k8s.local
+
+  Route/private-us-east-1a-0.0.0.0/0
+  	RouteTable          	name:private-us-east-1a.devops-case.k8s.local
+  	CIDR                	0.0.0.0/0
+  	NatGateway          	name:us-east-1a.devops-case.k8s.local
+
+  Route/private-us-east-1b-0.0.0.0/0
+  	RouteTable          	name:private-us-east-1b.devops-case.k8s.local
+  	CIDR                	0.0.0.0/0
+  	NatGateway          	name:us-east-1b.devops-case.k8s.local
+
+  Route/private-us-east-1c-0.0.0.0/0
+  	RouteTable          	name:private-us-east-1c.devops-case.k8s.local
+  	CIDR                	0.0.0.0/0
+  	NatGateway          	name:us-east-1c.devops-case.k8s.local
+
+  RouteTable/devops-case.k8s.local
+  	VPC                 	name:devops-case.k8s.local
+  	Shared              	false
+  	Tags                	{Name: devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, kubernetes.io/kops/role: public}
+
+  RouteTable/private-us-east-1a.devops-case.k8s.local
+  	VPC                 	name:devops-case.k8s.local
+  	Shared              	false
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, kubernetes.io/kops/role: private-us-east-1a, Name: private-us-east-1a.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+
+  RouteTable/private-us-east-1b.devops-case.k8s.local
+  	VPC                 	name:devops-case.k8s.local
+  	Shared              	false
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, kubernetes.io/kops/role: private-us-east-1b, Name: private-us-east-1b.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+
+  RouteTable/private-us-east-1c.devops-case.k8s.local
+  	VPC                 	name:devops-case.k8s.local
+  	Shared              	false
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, kubernetes.io/kops/role: private-us-east-1c, Name: private-us-east-1c.devops-case.k8s.local}
+
+  RouteTableAssociation/private-us-east-1a.devops-case.k8s.local
+  	RouteTable          	name:private-us-east-1a.devops-case.k8s.local
+  	Subnet              	name:us-east-1a.devops-case.k8s.local
+
+  RouteTableAssociation/private-us-east-1b.devops-case.k8s.local
+  	RouteTable          	name:private-us-east-1b.devops-case.k8s.local
+  	Subnet              	name:us-east-1b.devops-case.k8s.local
+
+  RouteTableAssociation/private-us-east-1c.devops-case.k8s.local
+  	RouteTable          	name:private-us-east-1c.devops-case.k8s.local
+  	Subnet              	name:us-east-1c.devops-case.k8s.local
+
+  RouteTableAssociation/utility-us-east-1a.devops-case.k8s.local
+  	RouteTable          	name:devops-case.k8s.local
+  	Subnet              	name:utility-us-east-1a.devops-case.k8s.local
+
+  RouteTableAssociation/utility-us-east-1b.devops-case.k8s.local
+  	RouteTable          	name:devops-case.k8s.local
+  	Subnet              	name:utility-us-east-1b.devops-case.k8s.local
+
+  RouteTableAssociation/utility-us-east-1c.devops-case.k8s.local
+  	RouteTable          	name:devops-case.k8s.local
+  	Subnet              	name:utility-us-east-1c.devops-case.k8s.local
+
+  SQS/devops-case-k8s-local-nth
+  	MessageRetentionPeriod	300
+  	Tags                	{Name: devops-case-k8s-local-nth, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  SSHKey/kubernetes.devops-case.k8s.local-4a:ea:cb:71:e6:df:a1:71:ea:ba:c3:c5:c1:f7:1e:3e
+  	Shared              	false
+  	KeyFingerprint      	SHA256:Pz9hCt8iy0ajkGk0MaIWAE/wZq/ovYj+OT5p2XYy+z0
+  	Tags                	{Name: devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  Secret/admin
+
+  Secret/kube
+
+  Secret/kube-proxy
+
+  Secret/kubelet
+
+  Secret/system:controller_manager
+
+  Secret/system:dns
+
+  Secret/system:logging
+
+  Secret/system:monitoring
+
+  Secret/system:scheduler
+
+  SecurityGroup/api-elb.devops-case.k8s.local
+  	Description         	Security group for api ELB
+  	VPC                 	name:devops-case.k8s.local
+  	RemoveExtraRules    	[port=443]
+  	Tags                	{Name: api-elb.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  SecurityGroup/masters.devops-case.k8s.local
+  	Description         	Security group for masters
+  	VPC                 	name:devops-case.k8s.local
+  	RemoveExtraRules    	[port=22, port=443, port=2380, port=2381, port=3988, port=4001, port=4002, port=4789, port=179, port=8443, port=3:4, port=-1]
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, Name: masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+
+  SecurityGroup/nodes.devops-case.k8s.local
+  	Description         	Security group for nodes
+  	VPC                 	name:devops-case.k8s.local
+  	RemoveExtraRules    	[port=22]
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: nodes.devops-case.k8s.local}
+
+  SecurityGroupRule/from-api-elb.devops-case.k8s.local-egress-all-0to0-0.0.0.0/0
+  	SecurityGroup       	name:api-elb.devops-case.k8s.local
+  	CIDR                	0.0.0.0/0
+  	Egress              	true
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: from-api-elb.devops-case.k8s.local-egress-all-0to0-0.0.0.0/0}
+
+  SecurityGroupRule/from-api-elb.devops-case.k8s.local-egress-all-0to0-::/0
+  	SecurityGroup       	name:api-elb.devops-case.k8s.local
+  	IPv6CIDR            	::/0
+  	Egress              	true
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: from-api-elb.devops-case.k8s.local-egress-all-0to0-::/0}
+
+  SecurityGroupRule/from-masters.devops-case.k8s.local-egress-all-0to0-0.0.0.0/0
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	CIDR                	0.0.0.0/0
+  	Egress              	true
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: from-masters.devops-case.k8s.local-egress-all-0to0-0.0.0.0/0}
+
+  SecurityGroupRule/from-masters.devops-case.k8s.local-egress-all-0to0-::/0
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	IPv6CIDR            	::/0
+  	Egress              	true
+  	Tags                	{Name: from-masters.devops-case.k8s.local-egress-all-0to0-::/0, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  SecurityGroupRule/from-masters.devops-case.k8s.local-ingress-all-0to0-masters.devops-case.k8s.local
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	SourceGroup         	name:masters.devops-case.k8s.local
+  	Tags                	{Name: from-masters.devops-case.k8s.local-ingress-all-0to0-masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  SecurityGroupRule/from-masters.devops-case.k8s.local-ingress-all-0to0-nodes.devops-case.k8s.local
+  	SecurityGroup       	name:nodes.devops-case.k8s.local
+  	SourceGroup         	name:masters.devops-case.k8s.local
+  	Tags                	{Name: from-masters.devops-case.k8s.local-ingress-all-0to0-nodes.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  SecurityGroupRule/from-nodes.devops-case.k8s.local-egress-all-0to0-0.0.0.0/0
+  	SecurityGroup       	name:nodes.devops-case.k8s.local
+  	CIDR                	0.0.0.0/0
+  	Egress              	true
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: from-nodes.devops-case.k8s.local-egress-all-0to0-0.0.0.0/0}
+
+  SecurityGroupRule/from-nodes.devops-case.k8s.local-egress-all-0to0-::/0
+  	SecurityGroup       	name:nodes.devops-case.k8s.local
+  	IPv6CIDR            	::/0
+  	Egress              	true
+  	Tags                	{KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, Name: from-nodes.devops-case.k8s.local-egress-all-0to0-::/0}
+
+  SecurityGroupRule/from-nodes.devops-case.k8s.local-ingress-all-0to0-nodes.devops-case.k8s.local
+  	SecurityGroup       	name:nodes.devops-case.k8s.local
+  	SourceGroup         	name:nodes.devops-case.k8s.local
+  	Tags                	{Name: from-nodes.devops-case.k8s.local-ingress-all-0to0-nodes.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  SecurityGroupRule/from-nodes.devops-case.k8s.local-ingress-tcp-1to2379-masters.devops-case.k8s.local
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	Protocol            	tcp
+  	FromPort            	1
+  	ToPort              	2379
+  	SourceGroup         	name:nodes.devops-case.k8s.local
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, Name: from-nodes.devops-case.k8s.local-ingress-tcp-1to2379-masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+
+  SecurityGroupRule/from-nodes.devops-case.k8s.local-ingress-tcp-2382to4000-masters.devops-case.k8s.local
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	Protocol            	tcp
+  	FromPort            	2382
+  	ToPort              	4000
+  	SourceGroup         	name:nodes.devops-case.k8s.local
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, Name: from-nodes.devops-case.k8s.local-ingress-tcp-2382to4000-masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+
+  SecurityGroupRule/from-nodes.devops-case.k8s.local-ingress-tcp-4003to65535-masters.devops-case.k8s.local
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	Protocol            	tcp
+  	FromPort            	4003
+  	ToPort              	65535
+  	SourceGroup         	name:nodes.devops-case.k8s.local
+  	Tags                	{Name: from-nodes.devops-case.k8s.local-ingress-tcp-4003to65535-masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  SecurityGroupRule/from-nodes.devops-case.k8s.local-ingress-udp-1to65535-masters.devops-case.k8s.local
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	Protocol            	udp
+  	FromPort            	1
+  	ToPort              	65535
+  	SourceGroup         	name:nodes.devops-case.k8s.local
+  	Tags                	{Name: from-nodes.devops-case.k8s.local-ingress-udp-1to65535-masters.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  SecurityGroupRule/https-elb-to-master
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	Protocol            	tcp
+  	FromPort            	443
+  	ToPort              	443
+  	SourceGroup         	name:api-elb.devops-case.k8s.local
+
+  SecurityGroupRule/icmp-pmtu-cp-to-elb
+  	SecurityGroup       	name:api-elb.devops-case.k8s.local
+  	Protocol            	icmp
+  	FromPort            	3
+  	ToPort              	4
+  	SourceGroup         	name:masters.devops-case.k8s.local
+
+  SecurityGroupRule/icmp-pmtu-elb-to-cp
+  	SecurityGroup       	name:masters.devops-case.k8s.local
+  	Protocol            	icmp
+  	FromPort            	3
+  	ToPort              	4
+  	SourceGroup         	name:api-elb.devops-case.k8s.local
+
+  Subnet/us-east-1a.devops-case.k8s.local
+  	ShortName           	us-east-1a
+  	VPC                 	name:devops-case.k8s.local
+  	AvailabilityZone    	us-east-1a
+  	CIDR                	10.0.32.0/19
+  	ResourceBasedNaming 	true
+  	AssignIPv6AddressOnCreation	false
+  	Shared              	false
+  	Tags                	{Name: us-east-1a.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, SubnetType: Private, kubernetes.io/role/internal-elb: 1}
+
+  Subnet/us-east-1b.devops-case.k8s.local
+  	ShortName           	us-east-1b
+  	VPC                 	name:devops-case.k8s.local
+  	AvailabilityZone    	us-east-1b
+  	CIDR                	10.0.64.0/19
+  	ResourceBasedNaming 	true
+  	AssignIPv6AddressOnCreation	false
+  	Shared              	false
+  	Tags                	{Name: us-east-1b.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, SubnetType: Private, kubernetes.io/role/internal-elb: 1}
+
+  Subnet/us-east-1c.devops-case.k8s.local
+  	ShortName           	us-east-1c
+  	VPC                 	name:devops-case.k8s.local
+  	AvailabilityZone    	us-east-1c
+  	CIDR                	10.0.96.0/19
+  	ResourceBasedNaming 	true
+  	AssignIPv6AddressOnCreation	false
+  	Shared              	false
+  	Tags                	{SubnetType: Private, kubernetes.io/role/internal-elb: 1, Name: us-east-1c.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  Subnet/utility-us-east-1a.devops-case.k8s.local
+  	ShortName           	utility-us-east-1a
+  	VPC                 	name:devops-case.k8s.local
+  	AvailabilityZone    	us-east-1a
+  	CIDR                	10.0.0.0/22
+  	ResourceBasedNaming 	true
+  	AssignIPv6AddressOnCreation	false
+  	Shared              	false
+  	Tags                	{Name: utility-us-east-1a.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned, SubnetType: Utility, kubernetes.io/role/elb: 1}
+
+  Subnet/utility-us-east-1b.devops-case.k8s.local
+  	ShortName           	utility-us-east-1b
+  	VPC                 	name:devops-case.k8s.local
+  	AvailabilityZone    	us-east-1b
+  	CIDR                	10.0.4.0/22
+  	ResourceBasedNaming 	true
+  	AssignIPv6AddressOnCreation	false
+  	Shared              	false
+  	Tags                	{SubnetType: Utility, kubernetes.io/role/elb: 1, Name: utility-us-east-1b.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  Subnet/utility-us-east-1c.devops-case.k8s.local
+  	ShortName           	utility-us-east-1c
+  	VPC                 	name:devops-case.k8s.local
+  	AvailabilityZone    	us-east-1c
+  	CIDR                	10.0.8.0/22
+  	ResourceBasedNaming 	true
+  	AssignIPv6AddressOnCreation	false
+  	Shared              	false
+  	Tags                	{kubernetes.io/cluster/devops-case.k8s.local: owned, SubnetType: Utility, kubernetes.io/role/elb: 1, Name: utility-us-east-1c.devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local}
+
+  TargetGroup/tcp-devops-case-k8s-local-oqueo1
+  	VPC                 	name:devops-case.k8s.local
+  	Tags                	{Name: tcp-devops-case-k8s-local-oqueo1, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+  	Port                	443
+  	Protocol            	TCP
+  	Shared              	false
+  	Attributes          	{deregistration_delay.connection_termination.enabled: true, deregistration_delay.timeout_seconds: 30}
+  	Interval            	10
+  	HealthyThreshold    	2
+  	UnhealthyThreshold  	2
+
+  VPC/devops-case.k8s.local
+  	CIDR                	10.0.0.0/16
+  	AmazonIPv6          	true
+  	EnableDNSHostnames  	true
+  	EnableDNSSupport    	true
+  	Shared              	false
+  	Tags                	{Name: devops-case.k8s.local, KubernetesCluster: devops-case.k8s.local, kubernetes.io/cluster/devops-case.k8s.local: owned}
+
+  VPCAmazonIPv6CIDRBlock/AmazonIPv6
+  	VPC                 	name:devops-case.k8s.local
+  	Shared              	false
+
+  VPCDHCPOptionsAssociation/devops-case.k8s.local
+  	VPC                 	name:devops-case.k8s.local
+  	DHCPOptions         	name:devops-case.k8s.local
+
+  WarmPool/ig-app-ondemand.devops-case.k8s.local
+  	Enabled             	false
+  	MinSize             	0
+  	AutoscalingGroup    	name:ig-app-ondemand.devops-case.k8s.local id:ig-app-ondemand.devops-case.k8s.local
+
+  WarmPool/ig-app-spot.devops-case.k8s.local
+  	Enabled             	false
+  	MinSize             	0
+  	AutoscalingGroup    	name:ig-app-spot.devops-case.k8s.local id:ig-app-spot.devops-case.k8s.local
+
+  WarmPool/master-us-east-1a.masters.devops-case.k8s.local
+  	Enabled             	false
+  	MinSize             	0
+  	AutoscalingGroup    	name:master-us-east-1a.masters.devops-case.k8s.local id:master-us-east-1a.masters.devops-case.k8s.local
+
+  WarmPool/master-us-east-1b.masters.devops-case.k8s.local
+  	Enabled             	false
+  	MinSize             	0
+  	AutoscalingGroup    	name:master-us-east-1b.masters.devops-case.k8s.local id:master-us-east-1b.masters.devops-case.k8s.local
+
+  WarmPool/master-us-east-1c.masters.devops-case.k8s.local
+  	Enabled             	false
+  	MinSize             	0
+  	AutoscalingGroup    	name:master-us-east-1c.masters.devops-case.k8s.local id:master-us-east-1c.masters.devops-case.k8s.local
+
+Must specify --yes to apply changes

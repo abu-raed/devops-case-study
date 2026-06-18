@@ -1,0 +1,21 @@
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  name: master-us-east-1c
+  labels:
+    kops.k8s.io/cluster: devops-case.k8s.local
+spec:
+  role: Master
+  machineType: t3.medium
+  minSize: 1
+  maxSize: 1
+  subnets:
+  - us-east-1c
+  rootVolumeSize: 64
+  rootVolumeType: gp3
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-us-east-1c
+  cloudLabels:
+    Environment: production
+    Role: control-plane

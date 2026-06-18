@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ configmap_name }}
+  namespace: {{ namespace }}
+  labels:
+    app: webapp
+    environment: {{ app_env }}
+  annotations:
+    managed-by: ansible
+    # Deterministic checksum of the rendered config — used by the
+    # rollout-restart task to detect when pods need to pick up new values.
+    config-checksum: "{{ (app_env + app_log_level + app_db_host + app_api_base_url + (feature_flags | string)) | hash('sha1') }}"
+data:
+  APP_ENV: "{{ app_env }}"
+  LOG_LEVEL: "{{ app_log_level }}"
+  LOG_FORMAT: "{{ app_log_format }}"
+
+  DB_HOST: "{{ app_db_host }}"
+  DB_NAME: "{{ app_db_name }}"
+  DB_POOL_SIZE: "{{ app_db_pool_size | string }}"
+
+  API_BASE_URL: "{{ app_api_base_url }}"
+  CACHE_TTL_SECONDS: "{{ cache_ttl_seconds | string }}"
+
+  STATIC_ASSETS_PATH: "{{ static_assets_path }}"
+
+  FEATURE_DARK_MODE: "{{ feature_flags.enable_dark_mode | lower }}"
+  FEATURE_BETA_SEARCH: "{{ feature_flags.enable_beta_search | lower }}"

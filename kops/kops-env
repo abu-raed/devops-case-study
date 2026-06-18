@@ -1,0 +1,5 @@
+export AWS_ACCESS_KEY_ID="dummy"
+export AWS_SECRET_ACCESS_KEY="dummmt+dummy"
+export AWS_REGION="us-east-1"
+export KOPS_STATE_STORE="s3://devops-case-kops-state-kubeios"
+echo "kops environment variables loaded successfully!"
