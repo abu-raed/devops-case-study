@@ -63,6 +63,7 @@ Amazon S3
 Glacier Lifecycle Policy
 ```
 
+![Architecture Flow](screenshots/flow.png "Architecture Diagram")
 ---
 
 # Kubernetes Cluster Design
